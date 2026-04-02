@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Gestión de Reservas{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+    <div class="dashboard-header">
+        <div>
+            <h1>Gestión de Reservas</h1>
+            <p class="subtitle">Historial completo, llegadas, salidas y monitorización desde la base de datos.</p>
+        </div>
+    </div>
+    
+    <div class="table-section glass-panel">
+        <div class="panel-header">
+            <h3>Todas las Reservas</h3>
+            <button class="primary-btn"><i class="fa-solid fa-calendar-plus"></i> Agendar</button>
+        </div>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID Reserva</th>
+                        <th>Cliente</th>
+                        <th>Tipo de Habitación</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Estado</th>
+                        <th>Monto Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if reservas %}
+                        {% for res in reservas %}
+                        <tr>
+                            <td style="color: var(--neon-purple); font-weight: 500;">#{{ res.id }}</td>
+                            <td>
+                                <div class="client-name">{{ res.cliente_nombre }}</div>
+                            </td>
+                            <td>{{ res.tipo_habitacion }}</td>
+                            <td>{{ res.check_in }}</td>
+                            <td>{{ res.check_out }}</td>
+                            <td>
+                                <span class="status-badge 
+                                    {% if 'registrado' in res.estado|lower %}status-active
+                                    {% elif 'pendiente' in res.estado|lower %}status-pending
+                                    {% else %}status-completed{% endif %}">
+                                    {{ res.estado }}
+                                </span>
+                            </td>
+                            <td style="font-weight: 600;">${{ res.monto }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                                No se encontraron reservas en la base de datos (O la conexión falló).<br/>
+                                <small>Verifica tu configuración de render.com (PostgreSQL) usando app.py</small>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

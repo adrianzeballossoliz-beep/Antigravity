@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Directorio de Clientes{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+    <div class="dashboard-header">
+        <div>
+            <h1>Directorio de Clientes</h1>
+            <p class="subtitle">Gestión interactiva de clientes alojados en el sistema desde la base de datos.</p>
+        </div>
+    </div>
+    
+    <div class="table-section glass-panel">
+        <div class="panel-header">
+            <h3>Todos los Clientes Registrados</h3>
+            <button class="primary-btn"><i class="fa-solid fa-plus"></i> Añadir Cliente</button>
+        </div>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID de Cliente</th>
+                        <th>Nombre del Cliente</th>
+                        <th>Correo Electrónico</th>
+                        <th>Teléfono</th>
+                        <th>Fecha de Registro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if clientes %}
+                        {% for cli in clientes %}
+                        <tr>
+                            <td style="color: var(--neon-blue); font-weight: 500;">#{{ cli.id }}</td>
+                            <td>
+                                <div class="client-cell">
+                                    <div class="client-avatar-placeholder">{{ cli.nombre[0:2] | upper }}</div>
+                                    <div>
+                                        <p class="client-name">{{ cli.nombre }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ cli.email }}</td>
+                            <td>{{ cli.telefono }}</td>
+                            <td>{{ cli.fecha }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                                No hay clientes en la base de datos (O la conexión a PostgreSQL no se resolvió). <br/>
+                                <small>Configura correctamente los credenciales DB_HOST y DB_PASS en app.py</small>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

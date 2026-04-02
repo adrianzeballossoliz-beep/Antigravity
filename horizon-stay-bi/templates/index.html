@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+    <div class="dashboard-header">
+        <div>
+            <h1>Resumen del Panel</h1>
+            <p class="subtitle">¡Bienvenido de nuevo! Aquí está el resumen de hoy para Horizon Stay.</p>
+        </div>
+        <div class="date-filter">
+            <select class="glass-select">
+                <option>Hoy</option>
+                <option>Esta Semana</option>
+                <option>Este Mes</option>
+                <option>Este Año</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+        <div class="kpi-card glass-panel">
+            <div class="kpi-header">
+                <div>
+                    <h3 class="kpi-title">Ingresos Totales</h3>
+                    <h2 class="kpi-value">$124,563</h2>
+                </div>
+                <div class="kpi-icon icon-blue">
+                    <i class="fa-solid fa-dollar-sign"></i>
+                </div>
+            </div>
+            <div class="kpi-footer">
+                <span class="trend positive"><i class="fa-solid fa-arrow-up"></i> 12.5%</span>
+                <span class="trend-label">vs el mes pasado</span>
+            </div>
+        </div>
+
+        <div class="kpi-card glass-panel">
+            <div class="kpi-header">
+                <div>
+                    <h3 class="kpi-title">Reservas Activas</h3>
+                    <h2 class="kpi-value">842</h2>
+                </div>
+                <div class="kpi-icon icon-purple">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+            </div>
+            <div class="kpi-footer">
+                <span class="trend positive"><i class="fa-solid fa-arrow-up"></i> 8.2%</span>
+                <span class="trend-label">vs el mes pasado</span>
+            </div>
+        </div>
+
+        <div class="kpi-card glass-panel">
+            <div class="kpi-header">
+                <div>
+                    <h3 class="kpi-title">Nuevos Clientes</h3>
+                    <h2 class="kpi-value">156</h2>
+                </div>
+                <div class="kpi-icon icon-green">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+            </div>
+            <div class="kpi-footer">
+                <span class="trend negative"><i class="fa-solid fa-arrow-down"></i> 2.1%</span>
+                <span class="trend-label">vs el mes pasado</span>
+            </div>
+        </div>
+
+        <div class="kpi-card glass-panel">
+            <div class="kpi-header">
+                <div>
+                    <h3 class="kpi-title">Tasa de Ocupación</h3>
+                    <h2 class="kpi-value">87%</h2>
+                </div>
+                <div class="kpi-icon icon-orange">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+            </div>
+            <div class="kpi-footer">
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 87%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="charts-section">
+        <div class="chart-container glass-panel">
+            <div class="panel-header">
+                <h3>Resumen de Ingresos</h3>
+                <button class="icon-btn"><i class="fa-solid fa-ellipsis"></i></button>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Clients Table -->
+    <div class="table-section glass-panel">
+        <div class="panel-header">
+            <h3>Llegadas Recientes de Clientes</h3>
+            <button class="view-all-btn">Ver Todo</button>
+        </div>
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nombre del Cliente</th>
+                        <th>Tipo de Habitación</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Estado</th>
+                        <th>Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if recientes %}
+                        {% for res in recientes %}
+                        <tr>
+                            <td>
+                                <div class="client-cell">
+                                    <div class="client-avatar-placeholder">{{ res.cliente_nombre[0:2] | upper }}</div>
+                                    <div>
+                                        <p class="client-name">{{ res.cliente_nombre }}</p>
+                                        <p class="client-email">{{ res.cliente_email }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ res.tipo_habitacion }}</td>
+                            <td>{{ res.check_in }}</td>
+                            <td>{{ res.check_out }}</td>
+                            <td>
+                                <span class="status-badge 
+                                    {% if 'registrado' in res.estado|lower %}status-active
+                                    {% elif 'pendiente' in res.estado|lower %}status-pending
+                                    {% else %}status-completed{% endif %}">
+                                    {{ res.estado }}
+                                </span>
+                            </td>
+                            <td>${{ res.monto }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <!-- Datos de respaldo estaticos en caso de que Postgres no este conectado aun -->
+                        <tr>
+                            <td>
+                                <div class="client-cell">
+                                    <img src="https://i.pravatar.cc/150?img=11" alt="Cliente" class="client-avatar">
+                                    <div>
+                                        <p class="client-name">Michael Robert</p>
+                                        <p class="client-email">m.robert@example.com</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Suite de Lujo</td>
+                            <td>24 Oct, 2023</td>
+                            <td>28 Oct, 2023</td>
+                            <td><span class="status-badge status-active">Registrado</span></td>
+                            <td>$1,250.00</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="client-cell">
+                                    <img src="https://i.pravatar.cc/150?img=5" alt="Cliente" class="client-avatar">
+                                    <div>
+                                        <p class="client-name">Sarah Jenkins</p>
+                                        <p class="client-email">s.jenkins@example.com</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Vista al Mar</td>
+                            <td>24 Oct, 2023</td>
+                            <td>30 Oct, 2023</td>
+                            <td><span class="status-badge status-pending">Pendiente</span></td>
+                            <td>$2,100.00</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="client-cell">
+                                    <div class="client-avatar-placeholder">AL</div>
+                                    <div>
+                                        <p class="client-name">Alex Lindemann</p>
+                                        <p class="client-email">alex.l@example.com</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Habitación Estándar</td>
+                            <td>23 Oct, 2023</td>
+                            <td>25 Oct, 2023</td>
+                            <td><span class="status-badge status-active">Registrado</span></td>
+                            <td>$450.00</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="client-cell">
+                                    <img src="https://i.pravatar.cc/150?img=47" alt="Cliente" class="client-avatar">
+                                    <div>
+                                        <p class="client-name">Emma Watson</p>
+                                        <p class="client-email">emma.w@example.com</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Presidencial</td>
+                            <td>22 Oct, 2023</td>
+                            <td>29 Oct, 2023</td>
+                            <td><span class="status-badge status-active">Registrado</span></td>
+                            <td>$5,400.00</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="client-cell">
+                                    <img src="https://i.pravatar.cc/150?img=12" alt="Cliente" class="client-avatar">
+                                    <div>
+                                        <p class="client-name">David Chen</p>
+                                        <p class="client-email">d.chen@example.com</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Suite de Lujo</td>
+                            <td>20 Oct, 2023</td>
+                            <td>24 Oct, 2023</td>
+                            <td><span class="status-badge status-completed">Check-out Realizado</span></td>
+                            <td>$1,100.00</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

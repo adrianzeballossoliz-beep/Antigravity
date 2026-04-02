@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block page_title %}Métrica de Ingresos Brutos{% endblock %}
+
+{% block content %}
+<div class="panel-section" style="max-width: 600px;">
+    <div class="panel-header">
+        <h2>Total Recaudado (SQL SUM)</h2>
+    </div>
+    <div style="padding: 40px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+        <i class="ph-fill ph-bank" style="font-size: 64px; color: var(--accent-green); margin-bottom: 20px;"></i>
+        <h1 style="font-size: 48px; font-weight: 700; color: var(--text-primary); margin-bottom: 10px;">${{ ingresos }}</h1>
+        <p class="muted-text">Sumatorio nativo de la columna <code>monto_total</code> en la tabla <code>factura</code> conectada desde PostgreSQL.</p>
+    </div>
+</div>
+{% endblock %}

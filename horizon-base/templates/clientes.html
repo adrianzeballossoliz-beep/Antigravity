@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block page_title %}Base de Datos: Clientes{% endblock %}
+
+{% block sidebar_nav %}
+    <p class="nav-heading">REGRESAR AL DASHBOARD</p>
+    <a href="{{ url_for('dashboard') }}" class="nav-item"><i class="ph ph-arrow-circle-left"></i><span>Ir al Dashboard BI</span></a>
+    
+    <div style="height: 1px; background: rgba(255,255,255,0.05); margin: 10px 0;"></div>
+    <p class="nav-heading">VISTAS TABULARES</p>
+    <a href="{{ url_for('clientes') }}" class="nav-item active"><i class="ph ph-users"></i><span>Ver Clientes DB</span></a>
+    <a href="{{ url_for('reservas') }}" class="nav-item"><i class="ph ph-calendar-check"></i><span>Ver Reservas DB</span></a>
+{% endblock %}
+
+{% block content %}
+<div class="panel-section">
+    <div class="panel-header">
+        <h2>Consulta: <code>SELECT id_cliente, nombre, email</code></h2>
+    </div>
+    <div class="table-wrapper">
+        <table class="modern-table">
+            <thead>
+                <tr>
+                    <th>ID Cliente</th>
+                    <th>Nombre de Cliente</th>
+                    <th>Correo Electrónico</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in clientes %}
+                <tr>
+                    <td><span class="accent-id">#{{ c.id_cliente }}</span></td>
+                    <td class="primary-text">{{ c.nombre }}</td>
+                    <td class="muted-text">{{ c.email }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="3" class="muted-text" style="text-align:center; padding: 40px;">No hay registros de clientes en PostgreSQL.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

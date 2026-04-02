@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS BI</title>
+    <!-- Ultra Modern Font (Plus Jakarta Sans) -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="dark-theme">
+    <!-- Advanced Dynamic Background Mesh -->
+    <div class="aurora-bg"></div>
+
+    <div class="app-container">
+        
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <i class="ph-fill ph-planet"></i>
+                </div>
+                <h2>Horizon <span>Stay</span></h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                {% block sidebar_nav %}
+                {% endblock %}
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-card">
+                    <div class="user-avatar">
+                        <i class="ph-fill ph-user-circle"></i>
+                    </div>
+                    <div class="user-details">
+                        <p class="user-name">Chicosmalos</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-title">
+                    <h1 class="page-title">{% block page_title %}Overview Central{% endblock %}</h1>
+                </div>
+                <div class="topbar-actions">
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+        
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
