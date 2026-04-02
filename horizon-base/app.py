@@ -6,21 +6,11 @@ import os
 app = Flask(__name__)
 
 # Configuración Postgres Híbrida Segura: prioriza Variables de Entorno (Render) y tiene Fallback local
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_NAME = os.getenv("DB_NAME", "postgres")
-DB_USER = os.getenv("DB_USER", "postgres")
-DB_PASS = os.getenv("DB_PASS", "123456")
-DB_PORT = os.getenv("DB_PORT", "5432")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://mi_db_92yz_user:4O7JjsikRY4wljJfDLJC476q1qFhf5vZ@dpg-d76tgks50q8c73dotdbg-a.oregon-postgres.render.com/mi_db_92yz")
 
 def get_db_connection():
     try:
-        return psycopg2.connect(
-            host=DB_HOST,
-            database=DB_NAME,
-            user=DB_USER,
-            password=DB_PASS,
-            port=DB_PORT
-        )
+        return psycopg2.connect(DATABASE_URL)
     except Exception as e:
         print(f"Error Database Connection: {e}")
         return None
