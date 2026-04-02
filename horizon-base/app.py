@@ -1,15 +1,16 @@
 from flask import Flask, render_template, jsonify
 import psycopg2
 from psycopg2.extras import RealDictCursor
+import os
 
 app = Flask(__name__)
 
-# Configuración Postgres local (Conexión "externa", pero se deja tu valor)
-DB_HOST = "localhost" 
-DB_NAME = "postgres"
-DB_USER = "postgres"
-DB_PASS = "123456"
-DB_PORT = "5432"
+# Configuración Postgres Híbrida Segura: prioriza Variables de Entorno (Render) y tiene Fallback local
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_NAME = os.getenv("DB_NAME", "postgres")
+DB_USER = os.getenv("DB_USER", "postgres")
+DB_PASS = os.getenv("DB_PASS", "123456")
+DB_PORT = os.getenv("DB_PORT", "5432")
 
 def get_db_connection():
     try:
