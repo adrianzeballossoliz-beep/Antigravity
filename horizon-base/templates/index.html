@@ -16,8 +16,8 @@
 <a href="/" class="nav-item js-nav-tab" data-target="dash-satisfaccion">
     <i class="ph ph-star-half"></i><span>Satisfacción</span>
 </a>
-<a href="/" class="nav-item js-nav-tab" data-target="dash-mantenimiento">
-    <i class="ph ph-wrench"></i><span>Activos</span>
+<a href="/" class="nav-item js-nav-tab" data-target="dash-mapa">
+    <i class="ph ph-map-trifold"></i><span>Geográfico</span>
 </a>
 
 <div style="height: 1px; background: rgba(255,255,255,0.05); margin: 15px 0;"></div>
@@ -159,6 +159,28 @@
         </div>
         <div style="padding: 40px;">
             <canvas id="maintChart" style="width:100%; height:320px;"></canvas>
+        </div>
+    </div>
+</section>
+<section id="dash-mapa" class="dashboard-section hidden">
+    <h2 style="margin-bottom: 35px; font-weight: 800; font-size:36px; letter-spacing:-1px;">Demografía de Reservas</h2>
+    <div class="panel-section">
+        <div class="panel-header">
+            <h2>Mapa de Calor Bolivia (Landing)</h2>
+            <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">Distribución de clientes por departamento de origen</p>
+        </div>
+        <div style="padding: 40px; display: flex; gap: 40px; align-items: center; justify-content: center; min-height: 500px;">
+            <div id="map-container" style="flex: 2; max-width: 600px;">
+                <!-- SVG injected via JS -->
+            </div>
+            <div id="map-legend" style="flex: 1; min-width: 200px;">
+                <div class="legend-scale">
+                    <p class="nav-heading" style="padding: 0; margin-bottom: 20px;">Escala de Densidad</p>
+                    <div id="legend-items" style="display: flex; flex-direction: column; gap: 12px;">
+                        <!-- Legend items injected via JS -->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

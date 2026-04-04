@@ -100,6 +100,28 @@ def api_metrics():
             
     return jsonify(metrics)
 
+@app.route('/api/heatmap')
+def api_heatmap():
+    """ Devuelve el conteo de reservas por departamento de la landing """
+    conn = get_db_connection()
+    data = []
+    if conn:
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        try:
+            cur.execute("""
+                SELECT u.departamento, COUNT(r.id) as count 
+                FROM reservas_landing r 
+                JOIN ubicaciones_bolivia u ON r.id_ubicacion = u.id_ubicacion 
+                GROUP BY u.departamento;
+            """)
+            data = cur.fetchall()
+        except Exception as e:
+            print(f"Error Heatmap Query: {e}")
+        finally:
+            cur.close()
+            conn.close()
+    return jsonify(data)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
